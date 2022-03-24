@@ -8,7 +8,7 @@ import {
 
 const initialState = {
   productos: [],
-  error: null,
+  error: false,
   loading: false,
 };
 

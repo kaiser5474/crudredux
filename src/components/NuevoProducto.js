@@ -1,24 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { crearNuevoProducto } from "../actions/productoActions";
 import { useDispatch, useSelector } from "react-redux";
 
 const NuevoProducto = () => {
   const [nombre, setNombre] = useState("");
   const [precio, setPrecio] = useState("");
+  const [msg, setMsg] = useState("");
   //utilizar use dispatch y te crea una funciona de
   const dispatch = useDispatch();
+
+  const cargando = useSelector((state) => state.productos.loading);
+  const error = useSelector((state) => state.productos.error);
+
+  useEffect(() => {
+    if (error) {
+      setMsg("Hubo un error");
+    }
+    setTimeout(() => {
+      setMsg("");
+    }, 3000);
+  }, [error]);
+
   const agregarProducto = (producto) => dispatch(crearNuevoProducto(producto));
   const submitNuevoProducto = (e) => {
     e.preventDefault();
-    console.log("Prueba");
+    console.log(error);
     //Validar Formulario
-    if (nombre.trim() === "" || precio.trim <= "") {
+    if (nombre.trim() === "" || precio <= 0) {
+      setMsg("Todos los campos son obligatorios");
       return;
     }
-
-    //Si no hay errores
-
-    //crear el nuevo producto
+    setMsg("");
+    //Si no hay errores crear el nuevo producto
     agregarProducto({ nombre, precio });
   };
   return (
@@ -61,6 +74,12 @@ const NuevoProducto = () => {
                 Agregar
               </button>
             </form>
+            {cargando ? <p>Cargando...</p> : null}
+            {msg !== "" ? (
+              <p className="alert alert-danger p-2 mt-4 text-center text-uppercase">
+                {msg}
+              </p>
+            ) : null}
           </div>
         </div>
       </div>
