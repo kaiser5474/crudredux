@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { crearNuevoProducto } from "../actions/productoActions";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const NuevoProducto = () => {
   const [nombre, setNombre] = useState("");
@@ -12,27 +13,23 @@ const NuevoProducto = () => {
   const cargando = useSelector((state) => state.productos.loading);
   const error = useSelector((state) => state.productos.error);
 
-  useEffect(() => {
-    if (error) {
-      setMsg("Hubo un error");
-    }
-    setTimeout(() => {
-      setMsg("");
-    }, 3000);
-  }, [error]);
-
   const agregarProducto = (producto) => dispatch(crearNuevoProducto(producto));
+
+  const navigate = useNavigate();
   const submitNuevoProducto = (e) => {
     e.preventDefault();
-    console.log(error);
     //Validar Formulario
     if (nombre.trim() === "" || precio <= 0) {
       setMsg("Todos los campos son obligatorios");
+      setTimeout(() => {
+        setMsg("");
+      }, 3000);
       return;
     }
     setMsg("");
     //Si no hay errores crear el nuevo producto
     agregarProducto({ nombre, precio });
+    navigate("/");
   };
   return (
     <div className="row justify-content-center ">
