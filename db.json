@@ -2,22 +2,22 @@
   "productos": [
     {
       "nombre": "Jugo de Naranja",
-      "precio": "300",
+      "precio": "313",
       "id": 3
     },
     {
       "nombre": "Rib Eye 800g",
-      "precio": "200",
+      "precio": "202",
       "id": 4
     },
     {
       "nombre": "Jugo de Fresa",
-      "precio": "200",
+      "precio": "201",
       "id": 5
     },
     {
       "nombre": "Calabaza",
-      "precio": 100,
+      "precio": "101",
       "id": 6
     },
     {
@@ -27,13 +27,8 @@
     },
     {
       "nombre": "Calabaza",
-      "precio": 200,
+      "precio": 66,
       "id": 8
-    },
-    {
-      "nombre": "Calabaza",
-      "precio": 200,
-      "id": 9
     }
   ]
 }

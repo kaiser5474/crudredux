@@ -1,6 +1,40 @@
-import React from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { editarProductoAction } from "../actions/productoActions";
+import { useNavigate } from "react-router-dom";
 
 const EditarProducto = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [productoParaEditar, setProductoParaEditar] = useState({
+    id: "",
+    nombre: "",
+    precio: "",
+  });
+
+  const productoEditar = useSelector((state) => state.productos.productoEditar);
+
+  useEffect(() => {
+    setProductoParaEditar(productoEditar);
+  }, [productoEditar]);
+
+  const onChangeFormulario = (e) => {
+    setProductoParaEditar({
+      ...productoParaEditar,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  if (!productoParaEditar) return null;
+
+  const { nombre, precio, id } = productoParaEditar;
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    dispatch(editarProductoAction(productoParaEditar));
+    navigate("/");
+  };
   return (
     <div className="row justify-content-center ">
       <div className="col-md-8">
@@ -9,25 +43,29 @@ const EditarProducto = () => {
             <h2 className="text-center mb-4 font-weight-bold">
               Editar Producto
             </h2>
-            <form>
+            <form onSubmit={handleClick}>
               <div className="form-group">
-                <label htmlFor="nombreProducto">Nombre Producto</label>
+                <label htmlFor="nombre">Nombre Producto</label>
                 <input
                   type="text"
                   className="form-control"
                   placeholder="Nombre Producto"
-                  id="nombreProducto"
-                  name="nombreProducto"
+                  id="nombre"
+                  name="nombre"
+                  value={nombre}
+                  onChange={onChangeFormulario}
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="precioProducto">Precio Producto</label>
+                <label htmlFor="precio">Precio Producto</label>
                 <input
                   type="number"
                   className="form-control"
                   placeholder="Precio Producto"
-                  id="precioProducto"
-                  name="precioProducto"
+                  id="precio"
+                  name="precio"
+                  value={precio}
+                  onChange={onChangeFormulario}
                 />
               </div>
               <button

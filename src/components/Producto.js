@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { deleteProducts } from "../actions/productoActions";
+import { Link, useNavigate } from "react-router-dom";
+import { deleteProducts, updateProductos } from "../actions/productoActions";
 import { useDispatch, useSelector } from "react-redux";
 
 const Producto = ({ producto }) => {
@@ -7,8 +7,16 @@ const Producto = ({ producto }) => {
   const dispatch = useDispatch();
   const eliminarProducto = (id) => dispatch(deleteProducts(id));
 
+  const navigate = useNavigate();
+
   const handleClick = () => {
     eliminarProducto(id);
+  };
+
+  //funcion q redirige de forma programada
+  const redireccionarEdicion = (producto) => {
+    dispatch(updateProductos(producto));
+    navigate(`/productos/editar/${producto.id}`);
   };
   return (
     <tr>
@@ -17,9 +25,13 @@ const Producto = ({ producto }) => {
         <span className="font-weight-bold">$ {precio}</span>
       </th>
       <th scope="col" className="acciones">
-        <Link to={`/productos/editar/${id}`} className="btn btn-primary mr-2">
+        <button
+          type="button"
+          onClick={() => redireccionarEdicion(producto)}
+          className="btn btn-primary mr-2"
+        >
           Editar
-        </Link>
+        </button>
         <button type="button" className="btn btn-danger" onClick={handleClick}>
           Eliminar
         </button>

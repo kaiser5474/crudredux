@@ -8,6 +8,10 @@ import {
   DELETE_PRODUCTO,
   DELETE_PRODUCTO_EXITO,
   DELETE_PRODUCTO_ERROR,
+  EDIT_PRODUCTO,
+  COMENZAR_EDIT_PRODUCTO,
+  EDIT_PRODUCTO_EXITO,
+  EDIT_PRODUCTO_ERROR,
 } from "../types";
 
 import clienteAxios from "../config/axios";
@@ -140,5 +144,59 @@ const deleteProductExito = (id) => ({
 
 const deleteProductError = (estado) => ({
   type: DELETE_PRODUCTO_ERROR,
+  payload: estado,
+});
+
+export function updateProductos(producto) {
+  return async (dispatch) => {
+    dispatch(updateProducto(producto));
+  };
+}
+
+export function editarProductoAction(producto) {
+  return async (dispatch) => {
+    dispatch(editarProducto(producto));
+    try {
+      //editar en la Base de Datos
+      const resultado = await clienteAxios.put(
+        `/productos/${producto.id}`,
+        producto
+      );
+      Swal.fire({
+        icon: "success",
+        title: "Producto editado correctamente",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      dispatch(updateProductoExito(producto));
+    } catch (error) {
+      console.log(error);
+      updateProductoError(true);
+      Swal.fire({
+        icon: "error",
+        title: "Hubo un error, intente de nuevo",
+        showConfirmButton: true,
+      });
+    }
+  };
+}
+
+const editarProducto = (producto) => ({
+  type: COMENZAR_EDIT_PRODUCTO,
+  payload: producto,
+});
+
+const updateProducto = (producto) => ({
+  type: EDIT_PRODUCTO,
+  payload: producto,
+});
+
+const updateProductoExito = (producto) => ({
+  type: EDIT_PRODUCTO_EXITO,
+  payload: producto,
+});
+
+const updateProductoError = (estado) => ({
+  type: EDIT_PRODUCTO_ERROR,
   payload: estado,
 });

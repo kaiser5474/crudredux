@@ -9,7 +9,6 @@ const Productos = () => {
   const loading = useSelector((state) => state.productos.loading);
   //console.log(loading);
   useEffect(() => {
-    console.log("1");
     const seleccionarProductos = () => dispatch(selectProducts());
     seleccionarProductos();
   }, []);
