@@ -2,7 +2,7 @@
   "productos": [
     {
       "nombre": "Jugo de Naranja",
-      "precio": "313",
+      "precio": "314",
       "id": 3
     },
     {
@@ -29,6 +29,26 @@
       "nombre": "Calabaza",
       "precio": 66,
       "id": 8
+    },
+    {
+      "nombre": "Calabaza",
+      "precio": 1,
+      "id": 9
+    },
+    {
+      "nombre": "Calabaza",
+      "precio": 1,
+      "id": 11
+    },
+    {
+      "nombre": "Calabaza",
+      "precio": 2,
+      "id": 12
+    },
+    {
+      "nombre": "Calabaza",
+      "precio": 3,
+      "id": 13
     }
   ]
 }

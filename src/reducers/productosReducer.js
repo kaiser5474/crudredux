@@ -8,6 +8,7 @@ import {
   DELETE_PRODUCTO,
   DELETE_PRODUCTO_EXITO,
   DELETE_PRODUCTO_ERROR,
+  CANCELAR_DELETE_PRODUCTO,
   EDIT_PRODUCTO,
   COMENZAR_EDIT_PRODUCTO,
   EDIT_PRODUCTO_EXITO,
@@ -74,14 +75,17 @@ export default function (state = initialState, action) {
         productos: productoActualizado,
         loading: false,
       };
-
     case DELETE_PRODUCTO_ERROR:
       return {
         ...state,
         error: action.payload,
         loading: false,
       };
-
+    case CANCELAR_DELETE_PRODUCTO:
+      return {
+        ...state,
+        loading: false,
+      };
     case EDIT_PRODUCTO:
       return {
         ...state,

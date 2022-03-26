@@ -8,6 +8,7 @@ import {
   DELETE_PRODUCTO,
   DELETE_PRODUCTO_EXITO,
   DELETE_PRODUCTO_ERROR,
+  CANCELAR_DELETE_PRODUCTO,
   EDIT_PRODUCTO,
   COMENZAR_EDIT_PRODUCTO,
   EDIT_PRODUCTO_EXITO,
@@ -117,6 +118,8 @@ export function deleteProducts(id) {
                 "success"
               )
             );
+        } else {
+          dispatch(cancelarDeleteProduct());
         }
       });
       //const products = await clienteAxios.delete(`/productos/${id}`);
@@ -135,6 +138,10 @@ export function deleteProducts(id) {
 
 const deleteProduct = () => ({
   type: DELETE_PRODUCTO,
+});
+
+const cancelarDeleteProduct = () => ({
+  type: CANCELAR_DELETE_PRODUCTO,
 });
 
 const deleteProductExito = (id) => ({

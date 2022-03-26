@@ -1,17 +1,21 @@
-import { useState, useEffect } from "react";
-import { crearNuevoProducto } from "../actions/productoActions";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
+import { crearNuevoProducto } from "../actions/productoActions";
+import { mostrarAlerta, ocultarAlertaAction } from "../actions/alertaActions";
+
+import { paraId } from "../helpers";
 
 const NuevoProducto = () => {
   const [nombre, setNombre] = useState("");
   const [precio, setPrecio] = useState("");
-  const [msg, setMsg] = useState("");
+
   //utilizar use dispatch y te crea una funciona de
   const dispatch = useDispatch();
 
   const cargando = useSelector((state) => state.productos.loading);
-  const error = useSelector((state) => state.productos.error);
+  const alerta = useSelector((state) => state.alerta.alerta);
 
   const agregarProducto = (producto) => dispatch(crearNuevoProducto(producto));
 
@@ -20,15 +24,17 @@ const NuevoProducto = () => {
     e.preventDefault();
     //Validar Formulario
     if (nombre.trim() === "" || precio <= 0) {
-      setMsg("Todos los campos son obligatorios");
-      setTimeout(() => {
-        setMsg("");
-      }, 3000);
+      const alerta = {
+        msg: "Ambos campos son obligatorios y el precio tiene que ser mayor a 0",
+        classes: "alert alert-danger p-2 mt-4 text-center text-uppercase",
+      };
+      dispatch(mostrarAlerta(alerta));
       return;
     }
-    setMsg("");
     //Si no hay errores crear el nuevo producto
-    agregarProducto({ nombre, precio });
+    dispatch(ocultarAlertaAction());
+    let id = paraId();
+    agregarProducto({ nombre, precio, id });
     navigate("/");
   };
   return (
@@ -72,11 +78,7 @@ const NuevoProducto = () => {
               </button>
             </form>
             {cargando ? <p>Cargando...</p> : null}
-            {msg !== "" ? (
-              <p className="alert alert-danger p-2 mt-4 text-center text-uppercase">
-                {msg}
-              </p>
-            ) : null}
+            {alerta ? <p className={alerta.classes}>{alerta.msg}</p> : null}
           </div>
         </div>
       </div>
